@@ -3,7 +3,7 @@ package lz78;
 import lz78.coder.LZ78Coder;
 import lz78.decoder.LZ78Decoder;
 
-import java.io.IOException;
+import java.io.*;
 
 public class LZ78Application {
     private static final String USAGE = "[mode] [input_file] [output_file]\n" +
@@ -22,15 +22,23 @@ public class LZ78Application {
 
         switch (mode) {
             case CODER_MODE:
-                LZ78Coder coder = new LZ78Coder(inputFile, outputFile);
+                LZ78Coder coder = new LZ78Coder(createFileReader(inputFile), createFileWriter(outputFile));
                 coder.code();
                 break;
             case DECODER_MODE:
-                LZ78Decoder decoder = new LZ78Decoder(inputFile, outputFile);
+                LZ78Decoder decoder = new LZ78Decoder(createFileReader(inputFile), createFileWriter(outputFile));
                 decoder.decode();
                 break;
             default:
                 throw new IllegalArgumentException("Unknown mode [" + mode + "]");
         }
+    }
+
+    private static Writer createFileWriter(String outputFile) throws IOException {
+        return new BufferedWriter(new FileWriter(new File(outputFile)));
+    }
+
+    private static Reader createFileReader(String inputFile) throws FileNotFoundException {
+        return new BufferedReader(new FileReader(new File(inputFile)));
     }
 }
