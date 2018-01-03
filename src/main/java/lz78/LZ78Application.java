@@ -6,6 +6,8 @@ import lz78.decoder.LZ78Decoder;
 import java.io.*;
 
 public class LZ78Application {
+    public static final int EOS = -1;
+
     private static final String USAGE = "[mode] [input_file] [output_file]\n" +
             "mode - coder [-c] or decoder [-d] mode";
     private static final String CODER_MODE = "-c";
